@@ -1,9 +1,13 @@
 package com.example.demo.domain;
 
+import com.example.demo.domain.Students;
+import com.example.demo.domain.Teacher;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import  java.util.Set;
+
 
 @Entity
 public class University {
@@ -15,6 +19,7 @@ public class University {
 
     @OneToMany(mappedBy = "university")
     private Set<Students> studentsSet = new HashSet<>();
+
     @OneToMany(mappedBy = "university")
     private Set<Teacher> teacherSet = new HashSet<>();
 

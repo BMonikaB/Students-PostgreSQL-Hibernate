@@ -1,36 +1,56 @@
 package com.example.demo.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-public class Teacher {
+public class Students {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     private String surName;
-    private String academicTitle;
+    private int age;
     private String telephone;
     @Embedded
     private Address address;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Index index;
     @ManyToOne
-    University university;
+    private University university;
+    @ManyToMany
+    Set<Classes> classesSet = new HashSet<>();
 
     public void setUniversity(University university) {
         this.university = university;
     }
 
-    private Teacher(){};
+    public University getUniversity() {
+        return university;
+    }
 
+    public Students(String name, String surName, int age, String telephone, Address address, String indeks) {
 
-    public Teacher(String name, String surName, String academicTitle, String telephone, Address address) {
         this.name = name;
         this.surName = surName;
-        this.academicTitle = academicTitle;
+        this.age = age;
         this.telephone = telephone;
         this.address = address;
+        this.index = new Index(indeks);
     }
+
+private Students(){};
+
+    public void  setIndex(Index inx){
+        this.index = inx;
+    }
+
+    public Index getIndex() {
+        return index;
+    }
+
 
     public int getId() {
         return id;
@@ -56,12 +76,12 @@ public class Teacher {
         this.surName = surName;
     }
 
-    public String getAcademicTitle() {
-        return academicTitle;
+    public int getAge() {
+        return age;
     }
 
-    public void setAcademicTitle(String academicTitle) {
-        this.academicTitle = academicTitle;
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getTelephone() {
@@ -82,13 +102,17 @@ public class Teacher {
 
     @Override
     public String toString() {
-        return "Teacher{" +
+        return "Students{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surName='" + surName + '\'' +
-                ", academicTitle='" + academicTitle + '\'' +
+                ", age=" + age +
                 ", telephone='" + telephone + '\'' +
                 ", address=" + address +
                 '}';
+    }
+
+    public void  addClasses(Classes classes){
+        classesSet.add(classes);
     }
 }
